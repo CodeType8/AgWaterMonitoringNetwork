@@ -1,0 +1,184 @@
+    
+  </style>
+    <head>
+        {% if title %}
+        <title>{{ title }}</title>
+        {% else %}
+        <title>Template</title>
+        {% endif %}
+        
+        <!-- fonts Sources -->
+        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    </head>
+    <body>
+        <!-- Whole Page End -->
+        <div id="wrapper">
+            <!-- Menu start -->
+            <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
+
+                <!-- Menu - Logo  -->
+                <div class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                    <div class="sidebar-brand-text mx-3">AGH2O</div>
+                </div>
+                <hr class="sidebar-divider my-0">
+        
+                <!-- Menu - Home -->
+                <hr class="sidebar-divider">
+        
+                <!-- Header -->
+		<li class="nav-item">
+			<a class="nav-link" href="login">
+				<span>Login</span>
+			</a>
+               <!-- <hr class="sidebar-divider d-none d-md-block"> -->
+        
+            </ul>
+            <!-- Sidebar End -->
+
+            <!-- Main Start -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Contents -->
+                <div id="content">
+            
+                    <!-- Topper Start -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            
+                        <!-- Topper - Search -->
+                        
+            
+                        <!-- Tooper - User 
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link" href="profile.html">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Username</span>
+                            <img class="img-profile rounded-circle" src="http://optimal.inven.co.kr/upload/2015/08/04/bbs/i11845512436.png">
+			    </a> -->
+                        </li>
+            
+                        </ul>
+                    </nav>
+                    <!-- Topper End -->
+                    
+                    <!-- Main Contents Start -->
+                    <!-- Add main content from here  -->
+
+                    <h2 class="main_page">New User</h2>
+                    <form class="main_page" action="" method="post" novalidate>
+                        {{ form.hidden_tag() }}
+                        <p>
+			  {% if 1 in errors %}
+			  <p>
+			  <div><font color="red">
+				  Username already taken</font>
+			</div>
+			{% endif %}
+			  </p>
+                          {{ form.username.label }}<br>
+                          {{ form.username(size=32) }}
+                        </p>
+                        <p>
+                          {{ form.name.label }}<br>
+                          {{ form.name(size=32) }}
+                        </p>
+                        <p>
+                          {% if 10 in errors %}
+                          <div><font color="red">An account is already using the email address</font></div>
+                          {% endif %}
+
+                            {{ form.email.label }}<br>
+                            {{ form.email(size=32) }}
+			</p>
+			  <p>
+			  {{ form.irdistrict.label }} <br>
+			  {{ form.irdistrict(size=32) }}
+			  </p>
+	
+			  <p>
+			  {% if 4 in errors %}
+                                  <div><font color="red">X-coordinate must be a single numerical value</font></div>
+                                {% endif %}
+                               {% if 7 in errors %}
+                                  <div><font color="red">X-coordinate is out of range</font></div>
+                                {% endif %}
+
+                          {{ form.defaultloclat.label }} <br>
+                          {{ form.defaultloclat(size=32) }}
+                          </p>
+			                            <p>
+                                    {% if 5 in errors %}
+                                  <div><font color="red">Y-coordinate must be a single numerical value</font></div>
+                                {% endif %}
+                                {% if 6 in errors %}
+                                  <div><font color="red">Y-coordinate is out of range</font></div>
+                                {% endif %}
+
+                          {{ form.defaultloclong.label }} <br>
+                          {{ form.defaultloclong(size=32) }}
+                          </p>
+
+
+			  {% if 2 in errors %}
+			  <div><font color="red">Passwords do not match</font></div>
+			  {% endif %}
+			  <p>
+			  {{ form.password.label }}<br>
+			  {{ form.password(size=32) }}
+			  </p>
+			  {{ form.confirmPassword.label }} <br>
+			  {{ form.confirmPassword(size=32) }}
+			  </p>
+                          {% if 3 in errors %}
+                          <div><font color="red">Invalid Key</font></div>
+                          {% endif %}
+
+			  <p>
+			  {{ form.key.label }}<br>
+			  {{ form.key(size=32) }}
+			  </p>
+                        <p>{{ form.submit() }}</p>
+                </form>
+                                        
+                    <!-- Main Contents End -->
+                </div>
+                <!-- Contents End -->
+          
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                  <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                      <span>Copyright &copy; AGH2O Team WaterBoys</span>
+                    </div>
+                  </div>
+                </footer>
+                <!-- End of Footer -->
+          
+              </div>
+              <!-- Main End -->
+          
+            </div>
+            <!-- Whole Page End -->
+        
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
+
+        <!-- Page level plugins -->
+        <script src="vendor/chart.js/Chart.min.js"></script>
+
+        <!-- Page level custom scripts -->
+        <script src="js/demo/chart-area-demo.js"></script>
+        <script src="js/demo/chart-pie-demo.js"></script>
+    </body>
+</html>

@@ -1,0 +1,208 @@
+    
+  </style>
+    <head>
+        {% if title %}
+        <title>{{ title }}</title>
+        {% else %}
+        <title>Template</title>
+        {% endif %}
+        
+        <!-- fonts Sources -->
+        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    </head>
+    <body>
+        <!-- Whole Page End -->
+        <div id="wrapper">
+            <!-- Menu start -->
+            <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
+
+                <!-- Menu - Logo  -->
+                <div class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                    <div class="sidebar-brand-text mx-3">AGH2O</div>
+                </div>
+                <hr class="sidebar-divider my-0">
+        
+                <!-- Menu - Home -->
+                <li class="nav-item active">
+                <a class="nav-link" href="index">
+                    <span>Home</span></a>
+                </li>
+                <hr class="sidebar-divider">
+        
+                <!-- Header -->
+                <div class="sidebar-heading">
+                Pages
+                </div>
+        
+                <!-- Menu - list of pages -->
+                <li class="nav-item">
+                  <a class="nav-link" href="logout">    
+                      <span>Logout</span>
+                  </a>
+                  <a class="nav-link" href="index">    
+                      <span>Profile</span>
+                  </a>
+                  <a class="nav-link" href="data">    
+                      <span>Dataview</span>
+                  </a>
+                  <a class="nav-link" href="newpoint">    
+                      <span>New Data Point</span>
+                  </a>
+		                    <a class="nav-link" href="changeloc">
+                      <span>Change Default Location</span>
+                  </a>
+
+                  <a class="nav-link" href="change">
+                      <span>Change Password</span>
+                  </a>
+
+              </li>
+                <hr class="sidebar-divider d-none d-md-block">
+        
+            </ul>
+            <!-- Sidebar End -->
+
+            <!-- Main Start -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Contents -->
+                <div id="content">
+            
+                    <!-- Topper Start -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            
+                        <!-- Topper - Search -->
+                       
+            
+                        <!-- Tooper - User -->
+<!--                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link" href="index">
+
+                            </a>
+</li> -->
+            
+                        </ul>
+                    </nav>
+                    <!-- Topper End -->
+                    
+                    <!-- Main Contents Start -->
+                    <!-- Add main content from here  -->
+                    <body>
+
+
+                    <p></p></p> 
+                    {% block content %}
+                    <h1 class="main_page">Hi, {{ tuser.name }}!</h1>
+                
+                {% endblock %}
+                    <p></p></p>
+                    <!-- Change this to display the users information-->
+                    <!-- EX: -->
+                   <!-- <div class="main_page">Username doublecurlyopenbracket curr _user.username doublecurlyclosebracket </div> -->
+                   <!-- <div class="main_page">UEmail  doublecurlyopenbracket curr _user.email doublecurlyclosebracket </div> -->
+                   <!--  etc but with the correct variable names. -->
+                   <!-- make sure the variable is passed in to  -->
+                  <!-- the doublecurlyclosebracket doublecurlyclosebracket don't get commented out correctly so have to use text -->
+
+                   <div class="main_page">Username: {{ tuser.userName }}  </div>
+                     <div class="main_page">E-mail: {{ tuser.eMail }}  </div>
+		     <div class="main_page">Irrigation District: <var id="irrigationDistrict"></var>{{ ird }}</div>
+                    <p></p></p>
+                        <h2 class="main_page">Your Submitted Data</h2>
+                
+                        <div class="view-data">
+                          <form method="POST">
+                            {% if data == None %}
+                              There is no data
+                            {% else %}
+                              {{ len }} Data Points Found
+                            {% endif %}
+                      <table>
+                        <tr>
+                          
+
+                          <th>
+                            ID
+                          </th>
+                          <th>
+                            Date
+                          </th>
+                          <th>
+                            Generic E. coli/100 mL
+                          </th>
+                          <th>
+                            Location
+                          </th>
+                          <th>
+                            Comments
+                          </th>
+                        </tr>
+                        {% for i in range(0, len) %}
+                        <tr>
+                          <td>
+                            {{ data[i].dataid }}
+                          </td>
+                          <td>
+                            {{ data[i].date }}
+                          </td>
+                          <td>
+                            {{ data[i].datapoint + " " + data[i].dataunit }} 
+                          </td>
+                          <td>
+                            {{ data[i].location }}
+                          </td>
+                          <td>
+                            {{ data[i].comments }}
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </table>
+                          </form>
+                        </div>
+                    <p></p></p>
+
+                                        
+                    <!-- Main Contents End -->
+                </div>
+                <!-- Contents End -->
+          
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                  <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                      <span>Copyright &copy; AGH2O Team WaterBoys</span>
+                    </div>
+                  </div>
+                </footer>
+                <!-- End of Footer -->
+          
+              </div>
+              <!-- Main End -->
+          
+            </div>
+            <!-- Whole Page End -->
+        
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
+
+        <!-- Page level plugins -->
+        <script src="vendor/chart.js/Chart.min.js"></script>
+
+        <!-- Page level custom scripts -->
+        <script src="js/demo/chart-area-demo.js"></script>
+        <script src="js/demo/chart-pie-demo.js"></script>
+    </body>
+</html>

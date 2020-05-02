@@ -1,0 +1,162 @@
+    
+  </style>
+    <head>
+        {% if title %}
+        <title>{{ title }}</title>
+        {% else %}
+        <title>Template</title>
+        {% endif %}
+        
+        <!-- fonts Sources -->
+        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+       <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+ 
+    </head>
+    <body>
+        <!-- Whole Page End -->
+        <div id="wrapper">
+            <!-- Menu start -->
+            <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
+
+                <!-- Menu - Logo  -->
+                <div class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                    <div class="sidebar-brand-text mx-3">AGH2O</div>
+                </div>
+                <hr class="sidebar-divider my-0">
+        
+                <!-- Menu - Home -->
+		                <li class="nav-item active">
+                <a class="nav-link" href="index">
+                    <span>Home</span></a>
+                </li>
+                <hr class="sidebar-divider">
+
+        
+                <!-- Header -->
+
+               <!-- <hr class="sidebar-divider d-none d-md-block"> -->
+        <div class="sidebar-heading">
+          Pages
+        </div>
+
+        <!-- Menu - list of pages -->
+        <li class="nav-item">
+          <a class="nav-link" href="logout">
+              <span>Logout</span>
+          </a>
+          <a class="nav-link" href="index">
+              <span>Profile</span>
+          </a>
+          <a class="nav-link" href="data">
+              <span>Dataview</span>
+          </a>
+          <a class="nav-link" href="newpoint">
+              <span>New Data Point</span>
+          </a>
+                            <a class="nav-link" href="changeloc">
+                      <span>Change Default Location</span>
+                  </a>
+
+                            <a class="nav-link" href="change">
+                      <span>Change Password</span>
+                  </a>
+
+        </li>
+          <hr class="sidebar-divider d-none d-md-block">
+        
+            </ul>
+            <!-- Sidebar End -->
+
+            <!-- Main Start -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Contents -->
+                <div id="content">
+            
+                    <!-- Topper Start -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            
+                        <!-- Topper - Search -->
+                          
+                       
+                    </nav>
+                    <!-- Topper End -->
+                    
+                    <!-- Main Contents Start -->
+                    <!-- Add main content from here  -->
+
+                    <h2 class="main_page">Change Default Map Location</h2>
+                    <form class="main_page" action="" method="post" novalidate>
+                        {{ form.hidden_tag() }}
+                        <p>
+			  {% if 2 in errors %}
+                                  <div><font color="red">X-coordinate must be a single numerical value</font></div>
+                                {% endif %}
+                               {% if 5 in errors %}
+                                  <div><font color="red">X-coordinate is out of range</font></div>
+                                {% endif %}
+
+
+                          {{ form.xgeo.label }}<br>
+                          {{ form.xgeo(size=32) }}
+                        </p>
+			<p>
+		              {% if 3 in errors %}
+                                  <div><font color="red">Y-coordinate must be a single numerical value</font></div>
+                                {% endif %}
+                                {% if 4 in errors %}
+                                  <div><font color="red">Y-coordinate is out of range</font></div>
+                                {% endif %}
+
+			{{ form.ygeo.label }}<br>
+			{{ form.ygeo(size=32) }}
+			</p>
+                                        
+
+                        <p>{{ form.submit() }}</p>
+                </form>
+		<p></p>
+	
+                                        
+                    <!-- Main Contents End -->
+                </div>
+                <!-- Contents End -->
+          
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                  <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                      <span>Copyright &copy; AGH2O Team WaterBoys</span>
+                    </div>
+                  </div>
+                </footer>
+                <!-- End of Footer -->
+          
+              </div>
+              <!-- Main End -->
+          
+            </div>
+            <!-- Whole Page End -->
+        
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
+
+        <!-- Page level plugins -->
+        <script src="vendor/chart.js/Chart.min.js"></script>
+
+        <!-- Page level custom scripts -->
+        <script src="js/demo/chart-area-demo.js"></script>
+        <script src="js/demo/chart-pie-demo.js"></script>
+    </body>
+</html>

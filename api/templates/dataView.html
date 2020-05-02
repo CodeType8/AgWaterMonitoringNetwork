@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Template</title>
+    {% endif %}
+      
+    <!-- fonts Sources -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+  <body>
+    <!-- Whole Page End -->
+    <div id="wrapper">
+      <!-- Menu start -->
+      <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Menu - Logo  -->
+        <div class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+          <div class="sidebar-brand-text mx-3">AGH2O</div>
+        </div>
+        <hr class="sidebar-divider my-0">
+    
+        <!-- Menu - Home -->
+        <li class="nav-item active">
+        <a class="nav-link" href="index">
+          <span>Home</span></a>
+        </li>
+        <hr class="sidebar-divider">
+
+        <!-- Header -->
+        <div class="sidebar-heading">
+          Pages
+        </div>
+
+        <!-- Menu - list of pages -->
+        <li class="nav-item">
+          <a class="nav-link" href="logout">    
+              <span>Logout</span>
+          </a>
+          <a class="nav-link" href="index">    
+              <span>Profile</span>
+          </a>
+          <a class="nav-link" href="data">    
+              <span>Dataview</span>
+          </a>
+          <a class="nav-link" href="newpoint">    
+              <span>New Data Point</span>
+          </a>
+	                    <a class="nav-link" href="changeloc">
+                      <span>Change Default Location</span>
+                  </a>
+
+	                    <a class="nav-link" href="change">
+                      <span>Change Password</span>
+                  </a>
+
+        </li>
+          <hr class="sidebar-divider d-none d-md-block">
+    
+      </ul>
+      <!-- Sidebar End -->
+
+      <!-- Main Start -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Contents -->
+        <div id="content">
+        
+          <!-- Topper Start -->
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        
+            <!-- Topper - Search -->
+           
+        
+            <!-- Tooper - User
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link" href="index">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                  {% if tuser.userName %}
+                  {{ tuser.userName }}
+                  {% else %}
+                  Guest
+                  {% endif %}
+                </span>
+                <img class="img-profile rounded-circle" src="http://optimal.inven.co.kr/upload/2015/08/04/bbs/i11845512436.png">
+	      </a> -->
+            </li>
+          </nav>
+          <!-- Topper End -->
+        
+          <!-- Main Contents Start -->
+          <!-- Add main content from here  -->
+          <div class="view-map" >
+            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
+            <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+            <div id="map" style="height: 500px">
+              <script type="text/javascript">
+                var len = {{ len }}, i = 0;
+                var x = 0.000000, y = 0.000000;
+                var username = "";
+		var map = L.map('map').setView([{{ xgeo }},{{ ygeo }}], 16);
+                //It need to display because of copyright by CartoDB
+                var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'});
+                var dict = {{ data|tojson }}
+                var layerGroup = L.layerGroup().addTo(map);
+
+		var markerArray = [];
+                var ourCustomControl = L.Control.extend({
+                  options: {
+                    position: 'topleft' 
+                    //control position - allowed: 'topleft', 'topright', 'bottomleft', 'bottomright'
+                  },
+                  onAdd: function (map) {
+                    var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+
+                    container.style.backgroundColor = 'white';
+                    container.style.width = '27px';
+                    container.style.height = '27px';
+
+                    container.onclick = function(){
+                      //fit screen based on markers
+                      var group = L.featureGroup(markerArray);
+                      map.fitBounds(group.getBounds());
+                    }
+                    return container;
+                  },
+                });
+
+                map.addControl(new ourCustomControl());
+            
+                //map display
+                map.addLayer(layer);
+
+                //make layer as group
+                for (i = 0; i < len; i++) {
+                  x = dict[i].x;
+                  y = dict[i].y;
+                  username = dict[i].dataid;
+                  console.log(username);
+                  marker = L.marker([x, y]).bindPopup("ID: " + username);
+                  layerGroup.addLayer(marker);  //add to group
+                }
+
+                //add layergroup marker on map
+                var overlay = {'markers': layerGroup};
+                L.control.layers(null, overlay).addTo(map);
+
+                //layerGroup.clearLayers();   //remove all layers
+                //L.latLng(map.getCenter())   //get center coord
+                
+                //map.fitBounds(layerGroup.getBounds());  //fir in the map - not working need to fix
+                
+                //map - click event
+                map.on('click', function(e) {
+                  //getting coordination
+                  var coord = e.latlng;
+                  console.log(coord.lat);
+                  console.log(coord.lng);
+                })
+                
+                //map - zoom event
+                map.on('zoomstart ', function() {
+                  console.log('zoomed');
+                });
+
+                //map - move event
+                map.on("moveend", function () {
+                  console.log('center coord = x: ', L.latLng(map.getCenter()).lat, ', y: ', L.latLng(map.getCenter()).lng);
+                });
+              </script>
+
+            </div>
+          </div>
+  <form class="main_page" action="" method="post" novalidate>
+                        {{ form.hidden_tag() }}
+                        <p>
+                          {% if 3 in errors %}
+                          <p>
+                          <div><font color="red">
+                                 Less than 20 points found inside the radius. Please increase range and try again</font>
+                        </div>
+                        {% endif %}
+                          {% if 8 in errors %}
+                          <p>
+                          <div><font color="red">
+                                 Distance must be a single numerical value</font>
+                        </div>
+                        {% endif %}
+
+                          </p>
+                          {{ form.radius.label }}<br>
+                          {{ form.radius(size=32) }}
+                        </p>
+                        <p>{{ form.submit() }}</p>
+                </form>
+
+          <div class="view-data">
+            <form method="POST">
+              {% if data == None %}
+                There is no data
+              {% else %}
+                {{ len }} Data Points Found
+              {% endif %}
+
+              {% if GM <= 0 %}
+                <p></p>
+                <p></p>
+                Please press submit under the table to see statistics on the 20 most recent points.
+                <p></p>
+              {% else %}
+                <p></p>
+                <p></p>
+                Statistics:
+                <table>
+                    <tr>
+                        <th>
+                            Geometric Mean(GM)
+                        </th>
+                        <th>
+                            Statistical Threshold Value(STV)
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ GM }}
+                        </th>
+                        <th>
+                            {{ STV }}
+                        </th>
+                    </tr>
+                </table>
+                <p></p>
+                <p></p>
+              {% endif %}
+              
+              <table>
+                <tr>
+			<th>
+			Username
+			</th>
+		 <th>
+                    ID
+                  </th>
+                  <th>
+                    Date
+                  </th>
+                  <th>
+                    Generic E. coli/100 mL
+                  </th>
+                  <th>
+                    Location
+                  </th>
+                  <th>
+                    Comments
+                  </th>
+                </tr>
+                {% for i in range(0, len) %}
+                <tr>
+			<!--
+                  <td>
+                    <input type="checkbox" value={{data[i].dataid}} name="include">
+			-->  
+			<td>
+			{{ data[i].username }}
+			</td>
+			<td>
+                    {{ data[i].dataid }}
+                  </td>
+                  <td>
+                    {{ data[i].date }}
+                  </td>
+                  <td>
+                    {{ data[i].datapoint }} {{ data[i].dataunit }}
+                  </td>
+                  <td>
+                    {{ data[i].location }}
+                  </td>
+                  <td>
+                    {{ data[i].comments }}
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+	    </form>
+	
+                
+               
+              </div>
+
+                <!-- Main Contents End -->
+            </div>
+            <!-- Contents End -->
+      
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+              <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                  <span>Copyright &copy; AGH2O Team WaterBoys</span>
+                </div>
+              </div>
+            </footer>
+            <!-- End of Footer -->
+      
+          </div>
+          <!-- Main End -->
+      
+        </div>
+        <!-- Whole Page End -->
+      
+      </div>
+  </body>
+</html>
